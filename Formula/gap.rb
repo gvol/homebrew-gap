@@ -17,6 +17,14 @@ class Gap < Formula
     depends_on "pari"
   end
 
+  option "with-xgap", "Install xgap, and all dependencies"
+  if build.with? "xgap"
+    depends_on "xquartz-wm"
+    depends_on "libx11"
+    depends_on "libxt"
+    depends_on "libxaw"
+  end
+
   # Required by some packages
   option "with-autogen", "Run autogen.sh if available"
   if build.with? "autogen"
