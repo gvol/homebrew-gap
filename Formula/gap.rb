@@ -17,6 +17,14 @@ class Gap < Formula
     depends_on "pari"
   end
 
+  # Required by some packages
+  option "with-autogen", "Run autogen.sh if available"
+  if build.with? "autogen"
+    depends_on "autoconf" => :build
+    depends_on "automake" => :build
+    depends_on "libtool" => :build
+  end
+
   head do
     url "https://github.com/gap-system/gap.git", branch: "master"
     depends_on "autoconf" => :build # required by packages below
