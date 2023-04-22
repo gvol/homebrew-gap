@@ -1,0 +1,14 @@
+* TODO Add a mirror (if available)
+
+class Gap < Formula
+   mirror "https://ftpmirror.gnu.org/emacs/emacs-28.2.tar.xz"
+   ...
+end
+* TODO Get xgap.sh working
+* TODO Switch to global pkg directory
+* TODO Get cddinterface working
+New package to install cddlib
+* TODO Decide if going to always require singular, use --with-singular, or just print a note about it
+* TODO Test on a minimal machine
+Maybe make a new brew checkout?
+But that packages will likely use /usr/local even without asking for it
