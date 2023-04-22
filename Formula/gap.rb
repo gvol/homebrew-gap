@@ -4,6 +4,19 @@ class Gap < Formula
   url "https://github.com/gap-system/gap/releases/download/v4.13.0/gap-4.13.0.tar.gz"
   sha256 "cc76ecbe33d6719450a593e613fb87e9e4247faa876f632dd0f97c398f92265d"
   license "GPL-2.0-or-later"
+
+  # Note: options are not allowed in Homebrew/homebrew-core as they
+  # are not tested by CI.
+  option "with-singular", "Install singular, and all packages using it"
+  if build.with? "singular"
+    depends_on "singular"
+  end
+
+  option "with-pari", "Install pari/gp, and all packages using it"
+  if build.with? "pari"
+    depends_on "pari"
+  end
+
   head do
     url "https://github.com/gap-system/gap.git", branch: "master"
     depends_on "autoconf" => :build # required by packages below
