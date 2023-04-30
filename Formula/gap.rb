@@ -60,6 +60,11 @@ class Gap < Formula
 
   def install
 
+    # prerequisites_packages = [
+    #   # "atlasrep",
+    #   # "normalizinterface",
+    #   # "semigroups",
+    # ]
 
     no_compilation_packages = [
       "atlasrep", "aclib", "agt", "alnuth", "automata", "automgrp",
@@ -106,7 +111,19 @@ class Gap < Formula
       "guava", "kbmag",
     ]
 
+    # # These package have autogen.sh available
+    # # I don't think there is a need to run it, but we could if we wanted
+    # autogen_packages = [
+    #   "anupq", "cddinterface", "curlinterface", "digraphs", "ferret",
+    #   "float", "guava", "io", "normalizinterface", "nq", "semigroups",
+    #   "simpcomp", "xgap", "zeromqinterface",
+    # ]
 
+    # # Run special commands after installation
+    # special_packages = {
+    #   # Even with x11 installed, it doesn't seem to work
+    #   # "xgap" => "cp bin/xgap.sh $GAPROOT/bin/xgap.sh",
+    # }
 
     all_packages = no_compilation_packages
                      .concat(configure_packages)
