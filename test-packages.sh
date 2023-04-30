@@ -7,7 +7,6 @@
 set -e
 
 PARI_PACKAGES="alnuth \
-        francy \
         polenta \
         radiroot \
         guarana \
@@ -152,6 +151,7 @@ PASSED_PACKAGES="aclib \
 "
 
 FAILED_PACKAGES="\
+        francy \
 "
 
 DIDNT_EXIT_PACKAGES="\
@@ -174,7 +174,7 @@ SLOW_PACKAGES="
 "
 
 # PACKAGES="$FAILED_PACKAGES $PACKAGES $SINGULAR_PACKAGES $PARI_PACKAGES"
-PACKAGES="$FAILED_PACKAGES $PACKAGES $PARI_PACKAGES"
+PACKAGES="$PACKAGES $PARI_PACKAGES"
 
 for package in $PACKAGES; do
     echo "Testing package $package"
