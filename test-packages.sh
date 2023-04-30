@@ -140,7 +140,6 @@ PASSED_PACKAGES="aclib \
         grape \
         io \
         json \
-        nq \
         orb \
         profiling \
         cohomolo \
@@ -152,6 +151,7 @@ PASSED_PACKAGES="aclib \
 
 FAILED_PACKAGES="\
         francy \
+        nq \
 "
 
 DIDNT_EXIT_PACKAGES="\
