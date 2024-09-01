@@ -60,74 +60,15 @@ class Gap < Formula
 
   def install
 
-    # prerequisites_packages = [
-    #   # "atlasrep",
-    #   # "normalizinterface",
-    #   # "semigroups",
-    # ]
-
-    no_compilation_packages = [
-      "atlasrep", "aclib", "agt", "alnuth", "automata", "automgrp",
-      "autpgrp", "circle", "classicpres", "congruence", "corelg",
-      "crime", "crisp", "cryst", "crystcat", "ctbllib", "cubefree",
-      "design", "difsets", "factint", "fga", "fining", "format",
-      "forms", "fr", "francy", "fwtree", "gapdoc", "gbnp", "genss",
-      "groupoids", "grpconst", "guarana", "hap", "hapcryst", "hecke",
-      "help", "idrel", "images", "intpic", "irredsol", "itc",
-      "jupyterkernel", "jupyterviz", "kan", "laguna", "liealgdb",
-      "liepring", "liering", "loops", "lpres", "majoranaalgebras",
-      "mapclass", "matgrp", "modisom", "nilmat", "nock",
-      "numericalsgps", "openmath", "packagemanager", "patternclass",
-      "permut", "polenta", "polycyclic", "polymaking", "primgrp",
-      "qpa", "quagroup", "radiroot", "rcwa", "rds", "recog",
-      "repndecomp", "repsn", "resclasses", "scscp", "sglppow",
-      "sgpviz", "singular", "sl2reps", "sla", "smallgrp", "smallsemi",
-      "sonata", "sophus", "spinsym", "standardff", "symbcompcc",
-      "thelma", "tomlib", "toric", "transgrp", "ugaly", "unipot",
-      "unitlib", "utils", "uuid", "walrus", "wedderga", "xmod",
-      "xmodalg", "yangbaxter",
-      # These packages have `doc` and `test` make targets, but we
-      # don't actually call them
-      "4ti2interface", "autodoc", "cap", "examplesforhomalg",
-      "gaussforhomalg", "generalizedmorphismsforcap", "gradedmodules",
-      "gradedringforhomalg", "homalg", "homalgtocas", "io_forhomalg",
-      "linearalgebraforcap", "localizeringforhomalg",
-      "matricesforhomalg", "modulepresentationsforcap", "modules",
-      "monoidalcategories", "nconvex", "ringsforhomalg", "sco",
-      "toolsforhomalg", "toricvarieties",
-    ]
-
-    # These two packages either don't build or don't work
-    # "cddinterface", "xgap",
-    configure_packages = [
-      "anupq", "caratinterface", "crypting", "curlinterface", "cvec",
-      "datastructures", "deepthought", "digraphs", "ferret", "float",
-      "gauss", "grape", "io", "json", "normalizinterface", "nq",
-      "orb", "profiling", "semigroups", "simpcomp", "zeromqinterface",
-      ]
-
-    old_configure_packages = [
-      "ace", "browse", "cohomolo", "edim", "example", "fplsa",
-      "guava", "kbmag",
-    ]
-
-    # # These package have autogen.sh available
-    # # I don't think there is a need to run it, but we could if we wanted
-    # autogen_packages = [
-    #   "anupq", "cddinterface", "curlinterface", "digraphs", "ferret",
-    #   "float", "guava", "io", "normalizinterface", "nq", "semigroups",
-    #   "simpcomp", "xgap", "zeromqinterface",
-    # ]
-
     # # Run special commands after installation
     # special_packages = {
     #   # Even with x11 installed, it doesn't seem to work
     #   # "xgap" => "cp bin/xgap.sh $GAPROOT/bin/xgap.sh",
     # }
 
-    all_packages = no_compilation_packages
-                     .concat(configure_packages)
-                     .concat(configure_packages)
+    # These two packages either don't build or don't work
+    # "cddinterface", "xgap",
+    exclude_packages = [ "xgap", "cddinterface", ]
 
     # Start actually building GAP
     if build.head?
@@ -151,33 +92,34 @@ class Gap < Formula
 
     cd libexec/"pkg" do
 
+      all_packages = Dir.glob("*")
+
       system "mkdir", "#{libexec}/gap/lib/gap/pkg/"
 
       # The makefiles appear to only be used for docs...
       # The BuildPackages.sh script didn't call them
       all_packages.each do |pkg|
+
+        if exclude_packages.include?(pkg)
+          ohai "Skiping package #{pkg} b/c it's in #{exclude_packages}"
+          next
+        else
+          ohai "Installing package #{pkg}"
+        end
+
         system "cp", "-R", pkg, "#{libexec}/gap/lib/gap/pkg/"
         cd pkg do
           if File.exist?("./prerequisites.sh")
             system "./prerequisites.sh", "#{libexec}/gap/lib/gap"
           end
+          if File.exist?("./configure")
+            system "./configure", "--with-gaproot=#{libexec}/gap/lib/gap"
+            system "make"
+            system "cp", "-R", "bin/", "#{libexec}/gap/lib/gap/pkg/#{pkg}"
+          end
         end
       end
 
-      configure_packages.each do |pkg|
-        cd pkg do
-          system "./configure", "--with-gaproot=#{libexec}/gap/lib/gap"
-          system "make"
-          system "cp", "-R", "bin/", "#{libexec}/gap/lib/gap/pkg/#{pkg}"
-        end
-      end
-      old_configure_packages.each do |pkg|
-        cd pkg do
-          system "./configure", "#{libexec}/gap/lib/gap"
-          system "make"
-          system "cp", "-R", "bin/", "#{libexec}/gap/lib/gap/pkg/#{pkg}"
-        end
-      end
     end
   end
 
