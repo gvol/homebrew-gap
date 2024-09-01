@@ -1,8 +1,8 @@
 class Gap < Formula
   desc "System for computational discrete algebra"
   homepage "https://www.gap-system.org/"
-  url "https://github.com/gap-system/gap/releases/download/v4.13.0/gap-4.13.0.tar.gz"
-  sha256 "cc76ecbe33d6719450a593e613fb87e9e4247faa876f632dd0f97c398f92265d"
+  url "https://github.com/gap-system/gap/releases/download/v4.13.1/gap-4.13.1.tar.gz"
+  sha256 "9794dbdba6fb998e0a2d0aa8ce21fc8848ad3d3f9cc9993b0b8e20be7e1dbeba"
   license "GPL-2.0-or-later"
 
   # Note: options are not allowed in Homebrew/homebrew-core as they
